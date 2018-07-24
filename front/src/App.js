@@ -24,34 +24,40 @@ import logo from './mojito.ico'
 
 class App extends Component {
   state = {
-    items: []
+    items: [],
+    addItem: {}
   }
 
-  componentDidMount() {// const items = [
-//   {
-//     name: 'Tongs',
-//     picture: '/images/tongs.jpg'
-//   },
-//   {
-//     name: 'Ballon de plage',
-//     picture: '/images/ballon.jpg'
-//   },
-//   {
-//     name: 'Raquettes de plage',
-//     picture: '/images/raquettes.jpg'
-//   },
-//   {
-//     name: 'Bouée grenouille',
-//     picture: '/images/bouee-grenouille.jpg'
-//   },
-// ]
+  componentDidMount() {
     fetch('/api/items')
     .then(res => res.json())
     .then(items => this.setState({items: items}))
   }
 
-  handleSubmit = () => {
+  handleChange = e => {
+    const name = e.target.name
+    const value = e.target.value
+    const newItem = {...this.state.addItem}
+    newItem[name] = value
+    this.setState({addItem: newItem})
+  }
 
+  handleSubmit = e => {
+    e.preventDefault()
+    const newItems = [...this.state.items]
+    newItems.push(this.state.addItem)
+    this.setState({items: newItems})
+    fetch('/api/items', {
+      method: 'POST',
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      }),
+      body: JSON.stringify(this.state.addItem)
+    })
+    .then(res => res.json())
+    .then(item => {
+      console.log(item)
+})
   }
 
   render() {
@@ -63,18 +69,18 @@ class App extends Component {
           <h1 className="PlayaList-title">PlayaList</h1>
         </header>
 
-        {/*<div className="PlayaList-list">
-          <form>
+        <div className="PlayaList-list">
+          <form onSubmit={this.handleSubmit}>
             <h5>Ajouter un item</h5>
             <div>
-              <input name="name" placeholder="Nom" />
-              <input name="picture" placeholder="image" />
+              <input name="name" placeholder="Nom" onChange={this.handleChange}/>
+              <input name="picture" placeholder="image" onChange={this.handleChange}/>
               <button type="submit">
                 <span className="icon-checkmark"></span>
               </button>
             </div>
           </form>
-        </div>*/}
+        </div>
 
         <div className="PlayaList-list">
           <Item itemList={this.state.items} />
