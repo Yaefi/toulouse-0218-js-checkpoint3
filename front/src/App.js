@@ -3,34 +3,51 @@ import Item from './Item'
 import './PlayaList.css'
 import logo from './mojito.ico'
 
-const items = [
-  {
-    name: 'Tongs',
-    picture: '/images/tongs.jpg'
-  },
-  {
-    name: 'Ballon de plage',
-    picture: '/images/ballon.jpg'
-  },
-  {
-    name: 'Raquettes de plage',
-    picture: '/images/raquettes.jpg'
-  },
-  {
-    name: 'Bouée grenouille',
-    picture: '/images/bouee-grenouille.jpg'
-  },
-]
+// const items = [
+//   {
+//     name: 'Tongs',
+//     picture: '/images/tongs.jpg'
+//   },
+//   {
+//     name: 'Ballon de plage',
+//     picture: '/images/ballon.jpg'
+//   },
+//   {
+//     name: 'Raquettes de plage',
+//     picture: '/images/raquettes.jpg'
+//   },
+//   {
+//     name: 'Bouée grenouille',
+//     picture: '/images/bouee-grenouille.jpg'
+//   },
+// ]
 
 class App extends Component {
   state = {
     items: []
   }
 
-  componentDidMount() {
+  componentDidMount() {// const items = [
+//   {
+//     name: 'Tongs',
+//     picture: '/images/tongs.jpg'
+//   },
+//   {
+//     name: 'Ballon de plage',
+//     picture: '/images/ballon.jpg'
+//   },
+//   {
+//     name: 'Raquettes de plage',
+//     picture: '/images/raquettes.jpg'
+//   },
+//   {
+//     name: 'Bouée grenouille',
+//     picture: '/images/bouee-grenouille.jpg'
+//   },
+// ]
     fetch('/api/items')
     .then(res => res.json())
-    .then(items => console.log(items))
+    .then(items => this.setState({items: items}))
   }
 
   handleSubmit = () => {
@@ -60,7 +77,7 @@ class App extends Component {
         </div>*/}
 
         <div className="PlayaList-list">
-          <Item itemList={items} />
+          <Item itemList={this.state.items} />
         </div>
 
       </div>
