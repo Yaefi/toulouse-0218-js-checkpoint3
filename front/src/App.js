@@ -27,6 +27,12 @@ class App extends Component {
     items: []
   }
 
+  componentDidMount() {
+    fetch('/api/items')
+    .then(res => res.json())
+    .then(items => console.log(items))
+  }
+
   handleSubmit = () => {
 
   }
@@ -54,10 +60,7 @@ class App extends Component {
         </div>*/}
 
         <div className="PlayaList-list">
-          <Item item={items[0]} />
-          <Item item={items[1]} />
-          <Item item={items[2]} />
-          <Item item={items[3]} />
+          <Item itemList={items} />
         </div>
 
       </div>
